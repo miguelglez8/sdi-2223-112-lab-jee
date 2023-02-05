@@ -16,6 +16,7 @@
 
     if (name != null && name.equals("admin") &&
         password != null && password.equals("admin")) {
+
         // Credencial válido, lo guardo en sesión
         request.getSession().setAttribute("user", "admin");
         response.sendRedirect("admin.jsp");
@@ -35,7 +36,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2” for="password">Password:</label>
+            <label class="control-label col-sm-2" for="password">Password:</label>
             <div class="col-sm-10">
                 <input type="password" class="form-control" id="password" name="password"
                        required="true"/>
