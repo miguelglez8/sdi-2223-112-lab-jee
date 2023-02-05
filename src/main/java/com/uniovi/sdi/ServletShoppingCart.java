@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,15 +27,8 @@ public class ServletShoppingCart extends HttpServlet {
         if (product != null) {
             addToShoppingCart(cart, product);
         }
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<HTML>");
-        out.println("<HEAD><TITLE>Tienda SDI: Cesta de la compra</TITLE></HEAD>");
-        out.println("<BODY>");
-        out.println(shoppingCartToHtml(cart) + "<br>");
-        // out.println("<a href=\"shop.html\">Volver</a></BODY></HTML>");
-        out.println("<a href=\"index.jsp\">Volver</a></BODY></HTML>");
+        request.setAttribute("selectedItems", cart);
+        getServletContext().getRequestDispatcher("/cart.jsp").forward(request, response);
     }
 
     private void addToShoppingCart(Map<String, Integer> cart, String productKey) {
