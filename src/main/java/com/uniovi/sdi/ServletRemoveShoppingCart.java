@@ -1,17 +1,14 @@
 package com.uniovi.sdi;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "ServletShoppingCart", value = "/AddToShoppingCart")
-public class ServletShoppingCart extends HttpServlet {
+@WebServlet(name = "ServletRemoveShoppingCart", value = "/RemoveShoppingCart")
+public class ServletRemoveShoppingCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
@@ -25,30 +22,22 @@ public class ServletShoppingCart extends HttpServlet {
         }
         String product = request.getParameter("product");
         if (product != null) {
-            addToShoppingCart(cart, product);
+            removeShoppingCart(cart, product);
         }
         request.setAttribute("selectedItems", cart);
         getServletContext().getRequestDispatcher("/cart.jsp").forward(request, response);
     }
 
-    private void addToShoppingCart(Map<String, Integer> cart, String productKey) {
-        if (cart.get(productKey)==null) {
-            cart.put(productKey, Integer.valueOf(1));
+    private void removeShoppingCart(Map<String, Integer> cart, String productKey) {
+        if (cart.get(productKey)==Integer.valueOf(1)) {
+            cart.remove(productKey);
         } else {
             int productCount = (Integer) cart.get(productKey).intValue();
-            cart.put(productKey, Integer.valueOf(productCount + 1));
+            cart.put(productKey, Integer.valueOf(productCount - 1));
         }
     }
 
-    private String shoppingCartToHtml(Map<String, Integer> cart) {
-        String shoppingCartTHtml = "";
-        for (String key: cart.keySet()) {
-            shoppingCartTHtml += "<p>[" + key + "]," + cart.get(key) + " unidades</p>";
-        }
-        return shoppingCartTHtml;
-    }
-
-        @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

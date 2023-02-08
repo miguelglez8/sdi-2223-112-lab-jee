@@ -36,7 +36,9 @@
     <ul>
         <c:forEach var="item" items="${selectedItems}">
             <tr>
-                <li>${item.key} - ${item.value} </li>
+                <li>${item.key} - ${item.value} unidad(es) <a href="RemoveShoppingCart?product=<c:out value="${item.key}"/>"
+                   class="nav-link">Pulsa para borrar una unidad de ${item.key}
+                </a></li>
             </tr>
         </c:forEach>
     </ul>
